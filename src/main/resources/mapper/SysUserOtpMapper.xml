@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.notp.mapper.SysUserOtpMapper">
+
+    <!-- 查询用户OTP配置 -->
+    <select id="selectByUserId" resultType="com.notp.entity.SysUserOtp">
+        select id, user_id, secret, enabled, create_time, update_time
+        from sys_user_otp
+        where user_id = #{userId}
+    </select>
+
+    <!-- 插入用户OTP配置 -->
+    <insert id="insert" parameterType="com.notp.entity.SysUserOtp" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user_otp (user_id, secret, enabled, create_time, update_time)
+        values (#{userId}, #{secret}, #{enabled}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!-- 更新用户OTP配置 -->
+    <update id="updateById" parameterType="com.notp.entity.SysUserOtp">
+        update sys_user_otp
+        <set>
+            <if test="et.enabled != null">enabled = #{et.enabled},</if>
+            <if test="et.secret != null">secret = #{et.secret},</if>
+            <if test="et.updateTime != null">update_time = #{et.updateTime}</if>
+        </set>
+        where id = #{et.id}
+    </update>
+
+    <!-- 删除用户OTP配置 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from sys_user_otp where id = #{id}
+    </delete>
+
+</mapper>
